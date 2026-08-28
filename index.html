@@ -41,10 +41,13 @@
             flex: 2;
             margin: 0 15px;
         }
-        .control-group span {
-            width: 60px;
-            text-align: right;
+        .control-group input[type="number"] {
+            width: 70px;
+            padding: 5px;
             font-family: monospace;
+            text-align: right;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         canvas {
             max-width: 100%;
@@ -81,17 +84,17 @@
     
     <div class="controls" id="controls" style="display:none;">
         <div class="control-group">
-            <label for="rotSlider">回転 (rot)</label>
+            <label for="rotSlider">回転</label>
             <input type="range" id="rotSlider" min="-180" max="180" value="0" step="90">
             <input type="number" id="rotNum" min="-180" max="180" value="0" step="90">
         </div>
         <div class="control-group">
-            <label for="widthSlider">幅 (width)</label>
+            <label for="widthSlider">幅</label>
             <input type="range" id="widthSlider" min="100" max="1200" value="512" step="1">
             <input type="number" id="widthNum" min="100" max="1200" value="512" step="1">
         </div>
         <div class="control-group">
-            <label for="brightSlider">明るさ (bright)</label>
+            <label for="brightSlider">明るさ</label>
             <input type="range" id="brightSlider" min="0.1" max="3.0" value="1.1" step="0.1">
             <input type="number" id="brightNum" min="0.1" max="3.0" value="1.1" step="0.1">
         </div>
@@ -104,7 +107,6 @@
 
     <canvas id="canvas"></canvas>
 
-    <!-- 2倍拡大用チェックボックス -->
     <div class="checkbox-group" id="optionsGroup" style="display:none;">
         <label for="scaleCheckbox" style="cursor: pointer; user-select: none;">
             <input type="checkbox" id="scaleCheckbox" style="margin-right: 8px;">
@@ -126,19 +128,29 @@
 
     let sourceImage = null;
 
-    const sliders = {
-        rot: document.getElementById('rotSlider'),
-        width: document.getElementById('widthSlider'),
-        bright: document.getElementById('brightSlider'),
-        contrast: document.getElementById('contrastSlider')
-    };
+    // スライダーと数値入力フォームのペア設定
+    const paramPairs = [
+        { slider: 'rotSlider', num: 'rotNum' },
+        { slider: 'widthSlider', num: 'widthNum' },
+        { slider: 'brightSlider', num: 'brightNum' },
+        { slider: 'contrastSlider', num: 'contrastNum' }
+    ];
 
-    const displays = {
-        rot: document.getElementById('rotVal'),
-        width: document.getElementById('widthVal'),
-        bright: document.getElementById('brightVal'),
-        contrast: document.getElementById('contrastVal')
-    };
+    // 双方向同期の設定
+    paramPairs.forEach(pair => {
+        const sliderEl = document.getElementById(pair.slider);
+        const numEl = document.getElementById(pair.num);
+
+        sliderEl.addEventListener('input', function() {
+            numEl.value = this.value;
+            if (sourceImage) processImage();
+        });
+
+        numEl.addEventListener('input', function() {
+            sliderEl.value = this.value;
+            if (sourceImage) processImage();
+        });
+    });
 
     imageInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -158,19 +170,11 @@
         reader.readAsDataURL(file);
     });
 
-    Object.keys(sliders).forEach(key => {
-        sliders[key].addEventListener('input', function() {
-            let unit = key === 'rot' ? '°' : (key === 'width' ? 'px' : '');
-            displays[key].textContent = this.value + unit;
-            if (sourceImage) processImage();
-        });
-    });
-
     function processImage() {
-        const rot = parseFloat(sliders.rot.value);
-        const targetWidth = parseInt(sliders.width.value);
-        const brightFactor = parseFloat(sliders.bright.value);
-        const contrastFactor = parseFloat(sliders.contrast.value);
+        const rot = parseFloat(document.getElementById('rotNum').value);
+        const targetWidth = parseInt(document.getElementById('widthNum').value);
+        const brightFactor = parseFloat(document.getElementById('brightNum').value);
+        const contrastFactor = parseFloat(document.getElementById('contrastNum').value);
 
         const rad = rot * Math.PI / 180;
         const sin = Math.abs(Math.sin(rad));
@@ -249,7 +253,6 @@
             const offCtx = offscreenCanvas.getContext('2d');
 
             offCtx.imageSmoothingEnabled = false;
-
             offCtx.drawImage(canvas, 0, 0, offscreenCanvas.width, offscreenCanvas.height);
             downloadCanvas = offscreenCanvas;
         }
