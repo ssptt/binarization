@@ -81,24 +81,24 @@
     
     <div class="controls" id="controls" style="display:none;">
         <div class="control-group">
-            <label for="rotSlider">回転</label>
+            <label for="rotSlider">回転 (rot)</label>
             <input type="range" id="rotSlider" min="-180" max="180" value="0" step="90">
-            <span id="rotVal">0°</span>
+            <input type="number" id="rotNum" min="-180" max="180" value="0" step="90">
         </div>
         <div class="control-group">
-            <label for="widthSlider">幅</label>
+            <label for="widthSlider">幅 (width)</label>
             <input type="range" id="widthSlider" min="100" max="1200" value="512" step="1">
-            <span id="widthVal">512px</span>
+            <input type="number" id="widthNum" min="100" max="1200" value="512" step="1">
         </div>
         <div class="control-group">
-            <label for="brightSlider">明るさ</label>
+            <label for="brightSlider">明るさ (bright)</label>
             <input type="range" id="brightSlider" min="0.1" max="3.0" value="1.1" step="0.1">
-            <span id="brightVal">1.1</span>
+            <input type="number" id="brightNum" min="0.1" max="3.0" value="1.1" step="0.1">
         </div>
         <div class="control-group">
             <label for="contrastSlider">コントラスト</label>
             <input type="range" id="contrastSlider" min="0.1" max="3.0" value="1.2" step="0.1">
-            <span id="contrastVal">1.2</span>
+            <input type="number" id="contrastNum" min="0.1" max="3.0" value="1.2" step="0.1">
         </div>
     </div>
 
