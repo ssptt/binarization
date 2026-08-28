@@ -90,18 +90,18 @@
         </div>
         <div class="control-group">
             <label for="widthSlider">幅</label>
-            <input type="range" id="widthSlider" min="100" max="1200" value="512" step="1">
-            <input type="number" id="widthNum" min="100" max="1200" value="512" step="1">
+            <input type="range" id="widthSlider" min="100" max="1000" value="512" step="1">
+            <input type="number" id="widthNum" min="100" max="1000" value="512" step="1">
         </div>
         <div class="control-group">
             <label for="brightSlider">明るさ</label>
-            <input type="range" id="brightSlider" min="0.1" max="3.0" value="1.1" step="0.1">
-            <input type="number" id="brightNum" min="0.1" max="3.0" value="1.1" step="0.1">
+            <input type="range" id="brightSlider" min="0.5" max="2.0" value="1.1" step="0.1">
+            <input type="number" id="brightNum" min="0.5" max="2.0" value="1.1" step="0.1">
         </div>
         <div class="control-group">
             <label for="contrastSlider">コントラスト</label>
-            <input type="range" id="contrastSlider" min="0.1" max="3.0" value="1.2" step="0.1">
-            <input type="number" id="contrastNum" min="0.1" max="3.0" value="1.2" step="0.1">
+            <input type="range" id="contrastSlider" min="0.5" max="2.0" value="1.2" step="0.1">
+            <input type="number" id="contrastNum" min="0.5" max="2.0" value="1.2" step="0.1">
         </div>
     </div>
 
@@ -110,7 +110,7 @@
     <div class="checkbox-group" id="optionsGroup" style="display:none;">
         <label for="scaleCheckbox" style="cursor: pointer; user-select: none;">
             <input type="checkbox" id="scaleCheckbox" style="margin-right: 8px;">
-            画像を2倍にアップスケールする
+            2倍にアップスケールして保存
         </label>
     </div>
 
@@ -128,7 +128,6 @@
 
     let sourceImage = null;
 
-    // スライダーと数値入力フォームのペア設定
     const paramPairs = [
         { slider: 'rotSlider', num: 'rotNum' },
         { slider: 'widthSlider', num: 'widthNum' },
@@ -136,7 +135,6 @@
         { slider: 'contrastSlider', num: 'contrastNum' }
     ];
 
-    // 双方向同期の設定
     paramPairs.forEach(pair => {
         const sliderEl = document.getElementById(pair.slider);
         const numEl = document.getElementById(pair.num);
