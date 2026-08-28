@@ -82,7 +82,7 @@
     <div class="controls" id="controls" style="display:none;">
         <div class="control-group">
             <label for="rotSlider">回転</label>
-            <input type="range" id="rotSlider" min="-180" max="180" value="0" step="1">
+            <input type="range" id="rotSlider" min="-180" max="180" value="0" step="90">
             <span id="rotVal">0°</span>
         </div>
         <div class="control-group">
@@ -255,7 +255,7 @@
         }
 
         const link = document.createElement('a');
-        link.download = 'EDed_img.png';
+        link.download = 'img.png';
         link.href = downloadCanvas.toDataURL('image/png');
         link.click();
     });
